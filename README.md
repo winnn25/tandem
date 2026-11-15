@@ -35,6 +35,4 @@ Full references are on the app's info screen.
 
 ## Please note
 
-This is a prototype. The crew and their readings are simulated, and the thresholds are demo values a flight surgeon would set for real. It is not a medical device.
-
-Built with help from Claude (Anthropic) for planning, code and testing.
+This is a prototype. The crew and their readings are simulated, and the thresholds are demo values a flight surgeon would set for real. It is not a medical device. Built with a bit help from Claude (Anthropic) for planning and coding.
