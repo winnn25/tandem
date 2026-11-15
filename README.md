@@ -4,7 +4,7 @@ Health checks for astronauts who can't call a doctor.
 
 Built for the 2026 NASA Space Apps Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*.
 
-**Live app:** _link coming_
+**Live app:** https://tandem-beta-snowy.vercel.app
 
 ## What it does
 
