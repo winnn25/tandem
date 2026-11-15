@@ -343,7 +343,7 @@ const GUIDES={
 const SCIENCE={
   immune:'In the NASA OSD-224 study, ISS dust held more categories of antimicrobial-resistance and virulence genes than an Earth cleanroom, and a later study saw these genes rise over successive flights. Mice in orbit showed gut-microbe shifts alongside signs of immune suppression.',
   bone:'NASA research shows astronauts typically lose 1 to 1.5% of bone density a month without gravity, which is why ISS crews exercise about two hours a day.',
-  heart:'Without gravity, body fluids shift toward the head and the heart and blood vessels adapt. The same fluid shift can change the eye: about 70% of astronauts develop spaceflight-associated neuro-ocular syndrome, according to NASA research. Readings are compared with your own early-mission normal, not an Earth average.',
+  heart:'Without gravity, body fluids shift toward the head and the heart and blood vessels adapt. The same fluid shift can change the eye: about 70% of astronauts develop spaceflight-associated neuro-ocular syndrome, according to NASA research. Heart rate and heart rate variability are compared with your own early-mission normal, not an Earth average.',
   mind:'Isolation, confinement and a 90-minute day-night cycle on the ISS disrupt sleep. Sleep loss and workload make it harder to judge your own state, which is why Tandem compares how you feel with what your signals show.',
   fuel:'The challenge brief lists inadequate nutrition among the health problems of long missions and names blood sugar as a useful indicator. Food and water also power the exercise that protects bone and heart, so Tandem tracks meals, water and blood sugar together.'
 };
@@ -577,7 +577,7 @@ function viewToday(){
   const c=crewById(S.crew), e=today(), ev=evaluate(S.crew,e);
   const wname=SYS.find(s=>s.id===ev.worst).name, wsys=ev.systems[ev.worst];
   const allGood=SYS.every(s=>ev.systems[s.id].status==='good');
-  const head=allGood?`${c.first}, all systems look like your normal.`:wsys.status==='act'?`${c.first}, act on your ${wname.toLowerCase()} today.`:`${c.first}, keep an eye on your ${wname.toLowerCase()}.`;
+  const head=allGood?`${c.first}, all systems look normal.`:wsys.status==='act'?`${c.first}, act on your ${wname.toLowerCase()} today.`:`${c.first}, keep an eye on your ${wname.toLowerCase()}.`;
   let actCode=(ev.top&&!allGood)?ev.top.code:'ok';
   if(ev.gap<=-2&&(allGood||wsys.status==='good'))actCode='feel_worse';
   const act=ACTIONS[actCode];
@@ -618,7 +618,7 @@ function viewToday(){
       </div>
     </div>
     <div class="legend">${SYS.map(s=>`<button data-act="go-body" aria-label="${s.name} ${ev.systems[s.id].score}"><span class="dot" style="background:${cv(s.id)}"></span>${s.name}<b>${ev.systems[s.id].score}</b></button>`).join('')}</div>
-    <div class="why"><strong>Why:</strong> ${esc(actCode==='feel_worse'&&allGood?`You rated yourself ${e.self} of 5, though your signals look like your normal.`:allGood?'Nothing stands out against your own normal today.'+(ev.top?' Small note: '+ev.top.text:''):ev.top.text)}</div>
+    <div class="why"><strong>Why:</strong> ${esc(actCode==='feel_worse'&&allGood?`You rated yourself ${e.self} of 5, though your signals look normal.`:allGood?'Nothing stands out today.'+(ev.top?' Small note: '+ev.top.text:''):ev.top.text)}</div>
     <button class="btn btn-primary btn-block" style="margin-top:14px" data-act="action" data-code="${actCode}">${esc(act.title)}</button>
   </section>
   ${gapCard}
@@ -729,7 +729,7 @@ function viewBody(){
     <div class="seg" role="group" aria-label="Reading" style="margin-top:12px">${Object.entries(METRICS).map(([k,x])=>`<button data-act="metric" data-k="${k}" aria-pressed="${S.metric===k}">${{hr:'Heart',hrv:'HRV',sleep:'Sleep',temp:'Temp',mood:'Mood',glucose:'Sugar'}[k]}</button>`).join('')}</div>
     ${S.showTable?`<table class="tbl"><thead><tr><th>Day</th><th>${esc(m.name)} (${esc(m.unit)})</th></tr></thead><tbody>${hist.map(e=>`<tr><td>${e.day===TODAY?'Today':e.day}</td><td>${e[S.metric]}</td></tr>`).join('')}</tbody></table>`:trendChart(S.crew,S.metric)}
   </section>`;
-  return `<p class="small muted" style="margin:0 4px 12px">Scores compare today with ${esc(crewById(S.crew).first)}'s own normal, not an Earth average. Tap a body part or system for reasons.</p>`+bodyFigure(ev)+
+  return `<p class="small muted" style="margin:0 4px 12px">Heart rate and HRV are compared with ${esc(crewById(S.crew).first)}'s own normal; other readings with safe ranges. Tap a body part or system for reasons.</p>`+bodyFigure(ev)+
   SYS.map(s=>{const x=ev.systems[s.id], open=openSys===s.id;
     return `<section class="card" id="sys-${s.id}">
       <button class="sys" data-act="sys" data-k="${s.id}" aria-expanded="${open}">
@@ -858,7 +858,7 @@ function sheetWelcome(){
   <h2 id="sheetTitle" style="text-align:center">Tandem</h2>
   <p class="muted" style="text-align:center">Health checks for astronauts who can't call a doctor. Built for NASA Space Apps 2026.</p>
   <ul class="points">
-    <li><span class="dot" style="background:var(--heart)"></span><span>Reads your vitals, sleep, mood and symptoms against <b>your own normal</b>, not an Earth average.</span></li>
+    <li><span class="dot" style="background:var(--heart)"></span><span>Checks vitals, sleep, mood and symptoms. Heart readings are judged against <b>your own normal</b>, the rest against safe ranges.</span></li>
     <li><span class="dot" style="background:var(--immune)"></span><span>Links your <b>cabin's microbes</b> to your immune score, using NASA's ISS microbiome data.</span></li>
     <li><span class="dot" style="background:var(--mind)"></span><span>Spots when <b>how you feel</b> and what your signals say don't match, and asks a crewmate to look.</span></li>
   </ul>
@@ -872,7 +872,7 @@ function sheetSources(){
   <div class="section-title">How Tandem answers the challenge</div>
   <div class="card stack small">
     <p><b>Gather:</b> a 2-minute morning check-in (vitals, blood sugar, food and water, sleep, exercise, mood, symptoms, dosimeter, an optional photo), a 10-second crewmate check, and cabin swabs per module.</p>
-    <p><b>Evaluate:</b> each reading against the astronaut's own normal, with a plain reason for every flag, plus the self-read gap in both directions.</p>
+    <p><b>Evaluate:</b> heart rate and HRV against the astronaut's own normal, other readings against safe ranges, with a plain reason for every flag, plus the self-read gap in both directions.</p>
     <p><b>Act:</b> one clear next step with a checklist, a log, and a report to the flight surgeon that respects the signal delay.</p>
     <div class="kv"><span>Space radiation</span><span>Dosimeter rule, mission total</span></div>
     <div class="kv"><span>Isolation and confinement</span><span>Mood, stress, sleep, crewmate check</span></div>

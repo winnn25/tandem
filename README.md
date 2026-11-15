@@ -10,7 +10,7 @@ Built for the 2026 NASA Space Apps Challenge: *Create Health Monitoring Software
 
 On a long mission, astronauts have to notice their own health changes. Tandem helps them do that in a two-minute morning check-in.
 
-- **Reads you against your own normal.** Heart rate, blood pressure, oxygen, temperature, blood sugar, sleep, exercise, food, water and mood are compared with your early-mission baseline, not an Earth average.
+- **Checks the readings that matter in space.** Heart rate, blood pressure, oxygen, temperature, blood sugar, sleep, exercise, food, water and mood. Heart rate and heart rate variability are compared with your own early-mission baseline; the rest are checked against safe ranges.
 - **Links the cabin to your body.** Each station module has its own microbe swab. The worst one feeds everyone's immune score, modelled on NASA's ISS microbiome study (OSD-224).
 - **Catches the self-read gap.** If you say you feel fine but your signals disagree, or the other way round, Tandem asks a crewmate to take a look.
 - **Tells you what to do.** Every flag comes with a plain reason, a short checklist, and a report to the flight surgeon that allows for the signal delay to Mars.
@@ -35,4 +35,6 @@ Full references are on the app's info screen.
 
 ## Please note
 
-This is a prototype. The crew and their readings are simulated, and the thresholds are demo values a flight surgeon would set for real. It is not a medical device. Built with a bit help from Claude (Anthropic) for planning and coding.
+This is a prototype. The crew and their readings are simulated, and the thresholds are demo values a flight surgeon would set for real. It is not a medical device.
+
+Built with help from Claude (Anthropic) for planning, code and testing.
